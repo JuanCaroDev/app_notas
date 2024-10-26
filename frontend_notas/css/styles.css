@@ -1,0 +1,57 @@
+/* ----------------- BODY ------------------- */
+/* le colocamos un limite de alto a las card para que ninguna quede muy larga o muy corta */
+.card{
+    height: 250px;
+    z-index: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* ----------------- FOOT ------------------- */
+/* le colocamos un color especifico y le damos las dimenciones para que no abarque toda la pantalla */
+.btn-agregar {
+    margin-bottom: 20px;
+    border: solid 1px;
+    background-color: rgba(240,248,255,0.568);
+    height: 48px;
+    width: 48px;
+    position: fixed;
+    bottom: 1rem;
+    right: 2.5rem;
+
+}
+/* Estilo para cuando sea pulsado, no cambie*/
+.btn-agregar:hover{
+    background-color: rgba(240,248,255,0.568);
+    border: solid 1px;
+} 
+
+#cancelarBusqueda {
+    height: 48px;
+    width: 48px;
+}
+
+.card::-webkit-scrollbar {
+    display: none;
+}
+
+/*---------------- MODAL ----------------*/
+#textoNotas {
+    overflow-y: auto;
+    overflow-x: hidden;
+    resize: none;
+}
+
+#tituloNotas:hover,
+#tituloNotas:focus,
+#textoNotas:hover,
+#textoNotas:focus {
+    outline: none; /*Quita el border al hacer focus en el input*/
+    text-decoration: none;
+    cursor: default;
+}
+
+#modal form input, 
+#modal form textarea{
+    color: white;
+}

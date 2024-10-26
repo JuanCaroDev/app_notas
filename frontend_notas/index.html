@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="./css/bootstrap-5.3.3-dist/css/bootstrap.min.css"> <!-- llamamos los estilos de los iconos -->
+        <link rel="stylesheet" href="./css/fontawesome-free-6.6.0-web/css/all.min.css">
+        <link rel="stylesheet" href="./css/styles.css">
+        <title>App de Notas</title> <!-- colocamos como titulo nuestro nombre, sugiero cambiarlo -->
+    </head>
+    <body class="bg-dark"> <!-- le damos esta clase de bootstrap para que se vea oscuro el fondo -->
+        <div class="container-fluid"> <!-- creamos el contenedor donde va a estar toda la app -->
+            <div class="row" id="head"> <!-- cabecera -->
+                <div class="row mt-2 sticky-top border-bottom border-secondary rounded d-flex justify-content-center">
+                    <div class="col-lg-5 col-sm-10 m-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="buscar" placeholder="Buscar" aria-label="Buscar" oninput="notas.buscarNotas()">
+                            <button class="btn btn-light"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3" id="body"> <!-- cuerpo donde se veran las notas y otras cosas -->
+                <div class="row row-cols-2 g-1" id="contenedorNotas"><!-- contenedor de las notas, donde la clase row-cols-2 me limita el numero de columnas a 2 por linea -->
+                    <!-- notas -->
+                    </div>
+                    <div class="row row-cols-1" id="contenedorAnuncios"></div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-end mt-5 me-3" id="foot"> <!-- con d-flex justify-content-end estoy enviando al boton al final de la linea y con mt-5 y me-3 lo alejo de lo que esta arriba de el y del final -->
+                <button type="button" class="btn btn-agregar" data-bs-toggle="modal" data-bs-target="#modal" onclick="focusTitulo()"> <!-- aca, con tbn-agregar, estoy llamando los estilos de index.css -->
+                    <i class="fa-solid fa-plus" style="color: #000000;"></i> <!-- este es un icono traido de fountaweson para dibujar el + -->
+                </button>
+            </div>
+        </div>
+        <div id="contenedor-modal">
+            <div class="modal fade" id="modal" tabindex="-1">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content bg-dark">
+                        <div class="modal-body">
+                            <button type="button" class="btn btn-secondary mb-3" data-bs-dismiss="modal"><i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i></button>
+                            <form action="">
+                                <div class="m-0">
+                                    <label for="tit_not" class="" hidden>Titulo de la Nota</label>
+                                    <input type="text" class="w-100 border-0 rounder-top bg-dark" id="tit_not" placeholder="Titulo">
+                                </div>
+                                <div class="m-0">
+                                    <label for="des_not" class="" hidden>Nota</label>
+                                    <textarea class="w-100 border-0 rounder-top bg-dark" id="des_not" rows="3" placeholder="Contenido..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" id="btnAgregar" onclick="notas.agregarNota()">Agregar</button> <!-- notas: se refiere a la variable que creamos para asignarle el nuevo Objeto -->
+                            <button class="btn btn-dark" id="btnEditar" hidden>Editar</button>
+                            <button class="btn btn-dark" id="btnEliminar" hidden>Eliminar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Modal de Registro -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-light" id="registerModalLabel">Registro</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="registerUsername" placeholder="Nombre de Usuario" class="form-control mb-2">
+                        <input type="email" id="registerEmail" placeholder="Correo Electrónico" class="form-control mb-2">
+                        <input type="password" id="registerPassword" placeholder="Contraseña" class="form-control mb-2">
+                        <button class="btn btn-primary w-100 mb-2" onclick="auth.register()">Registrar</button>
+                        <span id="registerSuccess" class="text-success d-none">¡Registro exitoso! Ahora puedes iniciar sesión.</span>
+                        <p class="text-center text-light mt-2">¿Ya tienes cuenta? <a href="#" onclick="auth.showLoginModal()">Inicia sesión aquí</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Inicio de Sesión -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-light" id="loginModalLabel">Inicio de Sesión</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="loginUsername" placeholder="Nombre de Usuario o Correo Electrónico" class="form-control mb-2">
+                        <input type="password" id="loginPassword" placeholder="Contraseña" class="form-control mb-2">
+                        <button class="btn btn-primary w-100 mb-2" onclick="auth.login()">Iniciar Sesión</button>
+                        <p class="text-center text-light">¿No tienes cuenta? <a href="#" onclick="auth.showRegisterModal()">Regístrate aquí</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./css/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script> <!-- aca llamo el js de bootstrap -->
+        <script src="./js/index.js"></script>
+    </body>
+</html>
